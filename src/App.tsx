@@ -1,14 +1,18 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
+import CrearCurso from "./components/CrearCurso";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ConsultaAlumnos from "./components/ConsultaAlumnos";
+import Layout from "./components/Layout";
 
 function App() {
   return (
-    <div>
-      <ConsultaAlumnos />
-    </div>
+    <Router>
+      <Layout>
+        <Routes>
+          <Route path="/consulta" element={<ConsultaAlumnos />} />
+          <Route path="/creacion" element={<CrearCurso />} />
+        </Routes>
+      </Layout>
+    </Router>
   );
 }
 

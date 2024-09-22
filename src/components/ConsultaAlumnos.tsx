@@ -5,6 +5,14 @@ const ConsultaAlumnos = () => {
   const [nombres, setNombres] = useState("");
   const [email, setEmail] = useState("");
   const [seccion, setSeccion] = useState("");
+  const [error, setError] = useState(false);
+
+  const handleInputChange = (e: {
+    target: { value: React.SetStateAction<string> };
+  }) => {
+    setCarnet(e.target.value);
+    setError(false);
+  };
 
   const handleBuscar = async () => {
     try {
@@ -21,9 +29,10 @@ const ConsultaAlumnos = () => {
         setEmail(data[0].Email);
         setSeccion(data[0].Seccion);
       } else {
-        alert("No se encontraron datos para este carnet");
+        setError(true);
       }
     } catch (error) {
+      setError(true);
       console.error("Error fetching data:", error);
     }
   };
@@ -37,40 +46,91 @@ const ConsultaAlumnos = () => {
 
   return (
     <div
+      className="card"
       style={{
         width: "600px",
         margin: "auto",
         padding: "20px",
-        border: "1px solid #ccc",
-        borderRadius: "10px",
-        backgroundColor: "#f9f9f9",
-        color: "black",
       }}
     >
-      <h2>Consulta de alumnos</h2>
-      <div className="field">
-        <label>Carnet: </label>
-        <input
-          type="text"
-          value={carnet}
-          onChange={(e) => setCarnet(e.target.value)}
-        />
+      {error && (
+        <div className="alert alert-danger" role="alert">
+          No se encontro el carnet!
+        </div>
+      )}
+      <div className="mb-3 row">
+        <label htmlFor="inputCarnet" className="col-sm-2 col-form-label">
+          Carnet:
+        </label>
+        <div className="col-sm-10">
+          <input
+            type="text"
+            className="form-control"
+            id="inputCarnet"
+            value={carnet}
+            onChange={handleInputChange}
+          />
+        </div>
       </div>
-      <div className="field">
-        <label>Nombres: </label>
-        <input type="text" value={nombres} readOnly />
+
+      <div className="mb-3 row">
+        <label htmlFor="inputNombres" className="col-sm-2 col-form-label">
+          Nombres:
+        </label>
+        <div className="col-sm-10">
+          <input
+            type="text"
+            className="form-control"
+            id="inputNombres"
+            value={nombres}
+            readOnly
+          />
+        </div>
       </div>
-      <div className="field">
-        <label>Email: </label>
-        <input type="text" value={email} readOnly />
+
+      <div className="mb-3 row">
+        <label htmlFor="inputEmail" className="col-sm-2 col-form-label">
+          Email:
+        </label>
+        <div className="col-sm-10">
+          <input
+            type="text"
+            className="form-control"
+            id="inputEmail"
+            value={email}
+            readOnly
+          />
+        </div>
       </div>
-      <div className="field">
-        <label>Sección: </label>
-        <input type="text" value={seccion} readOnly />
+
+      <div className="mb-3 row">
+        <label htmlFor="inputSeccion" className="col-sm-2 col-form-label">
+          Sección:
+        </label>
+        <div className="col-sm-10">
+          <input
+            type="text"
+            className="form-control"
+            id="inputSeccion"
+            value={seccion}
+            readOnly
+          />
+        </div>
       </div>
+
       <div style={{ marginTop: "20px" }}>
-        <button onClick={handleBuscar}>Buscar</button>
-        <button onClick={handleLimpiar} style={{ marginLeft: "10px" }}>
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={handleBuscar}
+        >
+          Buscar
+        </button>
+        <button
+          type="button"
+          className="btn btn-warning ms-2"
+          onClick={handleLimpiar}
+        >
           Limpiar
         </button>
       </div>
